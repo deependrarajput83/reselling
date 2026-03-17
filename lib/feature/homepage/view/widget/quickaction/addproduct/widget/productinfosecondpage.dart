@@ -24,7 +24,7 @@ class ProductInfoSecondPage extends StatelessWidget {
           Commontextformfiled(
             controller: TextEditingController(),
             obscureText: false,
-            hint: "100g",
+            hint: "100",
           ),
           SizedBox(height: AppSize.spacingSm),
           Text(AppTextFile.Tags),
