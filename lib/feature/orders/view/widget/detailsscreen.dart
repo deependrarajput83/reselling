@@ -9,6 +9,7 @@ import 'package:reselling_new/core/commonwidget/commoncontainer.dart';
 import '../../../../core/commonwidget/commonbutton.dart';
 import '../../viewmodel/orderdata.dart';
 import '../../viewmodel/orderdataprovider.dart';
+import 'deliverypartnerspage.dart';
 
 class Detailsscreen extends StatefulWidget {
   final OrderModel data;
@@ -216,112 +217,159 @@ class _DetailsscreenState extends State<Detailsscreen> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 16),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: titles.length,
-                    itemBuilder: (context, index) {
-                      return IntrinsicHeight(
-                        child: Row(
-                          children: [
-                            Column(
+                  widget.data.status?.toLowerCase() == "delivered"
+                      ? Padding(
+                          padding: const EdgeInsets.all(AppSize.paddingSm),
+                          child: Center(
+                            child: Column(
                               children: [
-                                Container(
-                                  width: 15,
-                                  height: 15,
-                                  decoration: BoxDecoration(
-                                    color: index < currentStep
-                                        ? Colors.green
-                                        : Colors.grey.shade300,
-                                    shape: BoxShape.circle,
-                                  ),
+                                Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                  size: 70,
                                 ),
-                                if (index != titles.length - 1)
-                                  Expanded(
-                                    child: Container(
-                                      width: 2,
-                                      color: index <= currentStep
-                                          ? Colors.green
-                                          : Colors.grey.shade300,
-                                    ),
-                                  ),
+                                SizedBox(
+                                  height: Screensize.height(context) * 0.01,
+                                ),
+                                Text(
+                                  "Order Completed",
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                                SizedBox(
+                                  height: Screensize.height(context) * 0.005,
+                                ),
+                                Text(
+                                  "This order has been successfully delivered",
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
                               ],
                             ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: titles.length,
+                          itemBuilder: (context, index) {
+                            return IntrinsicHeight(
+                              child: Row(
                                 children: [
-                                  Text(
-                                    titles[index],
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: index <= currentStep
-                                          ? Colors.black
-                                          : Colors.green,
-                                    ),
-                                  ),
-                                  if (status[index].isNotEmpty)
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        bottom: 16,
-                                        top: 4,
-                                      ),
-                                      child: Text(
-                                        index < currentStep
-                                            ? "Completed"
-                                            : index == currentStep
-                                            ? "In Progress"
-                                            : "",
-                                        style: TextStyle(
-                                          color: index == 2
-                                              ? Colors.orange
-                                              : Colors.green,
-                                          fontSize: 12,
+                                  Column(
+                                    children: [
+                                      Container(
+                                        width: 15,
+                                        height: 15,
+                                        decoration: BoxDecoration(
+                                          color: index < currentStep
+                                              ? Colors.green
+                                              : Colors.grey.shade300,
+                                          shape: BoxShape.circle,
                                         ),
                                       ),
-                                    )
-                                  else
-                                    const SizedBox(height: 24),
+                                      if (index != titles.length - 1)
+                                        Expanded(
+                                          child: Container(
+                                            width: 2,
+                                            color: index <= currentStep
+                                                ? Colors.green
+                                                : Colors.grey.shade300,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          titles[index],
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: index <= currentStep
+                                                ? Colors.black
+                                                : Colors.green,
+                                          ),
+                                        ),
+                                        if (status[index].isNotEmpty)
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 16,
+                                              top: 4,
+                                            ),
+                                            child: Text(
+                                              index < currentStep
+                                                  ? "Completed"
+                                                  : index == currentStep
+                                                  ? "In Progress"
+                                                  : "",
+                                              style: TextStyle(
+                                                color: index == 2
+                                                    ? Colors.orange
+                                                    : Colors.green,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          )
+                                        else
+                                          const SizedBox(height: 24),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
+                            );
+                          },
+                        ),
+                ],
+              ),
+            ),
+            widget.data.status?.toLowerCase() == "delivered"
+                ? Text("")
+                : Padding(
+                    padding: const EdgeInsets.all(AppSize.paddingSm),
+                    child: Column(
+                      children: [
+                        CommonButton(
+                          widht: double.infinity,
+                          OnPressed: () {
+                            context.read<Orderdataprovider>().updateNextStatus(
+                              widget.data,
+                            );
+                          },
+                          child: Text("Update to Next Status"),
+                        ),
+                        SizedBox(height: Screensize.height(context) * 0.01),
+                        Row(
+                          children: [
+                            CommonButton(
+                              OnPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Deliverypartnerspage(),
+                                  ),
+                                );
+                              },
+                              child: Text("Assign Delivery"),
+                            ),
+                            const Spacer(),
+                            CommonButton(
+                              OnPressed: () {},
+                              child: Text("Invoice"),
                             ),
                           ],
                         ),
-                      );
-                    },
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(AppSize.paddingSm),
-              child: Column(
-                children: [
-                  CommonButton(
-                    widht: double.infinity,
-                    OnPressed: () {
-                      context.read<Orderdataprovider>().updateNextStatus(
-                        widget.data,
-                      );
-                    },
-                    child: Text("Update to Next Status"),
-                  ),
-                  SizedBox(height: Screensize.height(context) * 0.01),
-                  Row(
-                    children: [
-                      CommonButton(
-                        OnPressed: () {},
-                        child: Text("Assign Delivery"),
-                      ),
-                      const Spacer(),
-                      CommonButton(OnPressed: () {}, child: Text("Invoice")),
-                    ],
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

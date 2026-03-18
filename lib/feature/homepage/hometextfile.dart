@@ -98,7 +98,7 @@ class AppTextFile {
   static const String items = "items";
   static const String OrderTimeline = "Order Status Timeline";
   static const String OrderReceived = "Order Received";
-  static const String OutofDelivery = "Out of Delivery";
+  static const String OutofDelivery = "Dispatched";
   //order details
 
   ///profile page text

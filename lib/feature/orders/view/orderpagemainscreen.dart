@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reselling_new/feature/orders/view/widget/cancelled.dart';
 import 'package:reselling_new/feature/orders/view/widget/delivered.dart';
 import 'package:reselling_new/feature/orders/view/widget/neworder.dart';
+import 'package:reselling_new/feature/orders/view/widget/outofdelivery.dart';
 import 'package:reselling_new/feature/orders/view/widget/packed.dart';
 import 'package:reselling_new/feature/orders/view/widget/shipped.dart';
 
@@ -56,10 +57,18 @@ class _OrderPageMainScreenState extends State<OrderPageMainScreen> {
                 AppTextFile.Neworder,
                 AppTextFile.Packed,
                 AppTextFile.Shipped,
+                AppTextFile.OutofDelivery,
                 AppTextFile.Delivered,
                 AppTextFile.Cancelled,
               ],
-              views: [NewOrder(), Pack(), Shipped(), Delivered(), Cancelled()],
+              views: [
+                NewOrder(),
+                Pack(),
+                Shipped(),
+                Outofdelivery(),
+                Delivered(),
+                Cancelled(),
+              ],
             ),
     );
   }
