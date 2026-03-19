@@ -1,138 +1,181 @@
-import 'dart:core';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../../../../core/commonfile/screensize.dart';
 import '../../../../../../../core/commonstyle/colorstyle.dart';
 import '../../../../../../../core/commonstyle/sizes.dart';
 import '../../../../../../../core/commonwidget/commoncontainer.dart';
-import '../../../../../../../core/commonwidget/commontextformfiled.dart';
-import '../../../../../hometextfile.dart';
+import '../../../../../viewmodel/datauplodeprovider.dart';
 
 class ProductInfoFirstPage extends StatefulWidget {
-  ProductInfoFirstPage({super.key});
+  const ProductInfoFirstPage({super.key});
+
   @override
   State<ProductInfoFirstPage> createState() => _ProductInfoFirstPageState();
 }
 
 class _ProductInfoFirstPageState extends State<ProductInfoFirstPage> {
-  List<String> Cname = ["Electric", "Charger", "Cloth", "Fashion"];
+  final List<String> Cname = ["Electric", "Charger", "Cloth", "Fashion"];
   String? selectedCat = "Electric";
+
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<Datauplodeprovider>();
     return CommonContainer(
-      height: Screensize.height(context) * 0.55,
       padding: EdgeInsets.all(AppSize.paddingMd),
       width: double.infinity,
       color: AppColor.ContainerColor,
       border: Border.all(color: Colors.grey.shade300),
-      radius: 0,
+      radius: 12,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            AppTextFile.Productname,
-            style: TextStyle(fontFamily: 'poppins'),
+          _sectionTitle("Basic Information"),
+          SizedBox(height: 12),
+          _inputField(
+            label: "Product Name",
+            controller: provider.namecontroller,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Product name required";
+              }
+              if (value.length < 3) {
+                return "Minimum 3 characters";
+              }
+              return null;
+            },
           ),
-          SizedBox(height: AppSize.paddingSm),
-          Commontextformfiled(
-            controller: TextEditingController(),
-            obscureText: false,
-            hint: AppTextFile.EnterProductName,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: AppSize.paddingSm),
-            child: GridView(
-              shrinkWrap: true,
-              physics: ScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 2,
-                crossAxisSpacing: 2,
-                childAspectRatio: 2.2,
-              ),
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(AppTextFile.Price),
-                    SizedBox(height: AppSize.paddingXS),
-                    Commontextformfiled(
-                      maxLines: 1,
-                      controller: TextEditingController(),
-                      obscureText: false,
-                      hint: AppTextFile.Price,
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(AppTextFile.MRP),
-                    SizedBox(height: AppSize.paddingXS),
-                    Commontextformfiled(
-                      maxLines: 1,
-                      controller: TextEditingController(),
-                      obscureText: false,
-                      hint: AppTextFile.MRP,
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(AppTextFile.StockQuantity),
-                    SizedBox(height: AppSize.paddingXS),
-                    Commontextformfiled(
-                      maxLines: 1,
-                      controller: TextEditingController(),
-                      obscureText: false,
-                      hint: AppTextFile.StockQuantity,
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(AppTextFile.Category),
-                    SizedBox(height: AppSize.paddingXS),
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(fillColor: Colors.white),
-                      dropdownColor: Colors.white,
-                      isDense: true,
-                      focusColor: Colors.white,
-                      style: Theme.of(context).textTheme.titleSmall,
-                      value: selectedCat,
-                      menuMaxHeight: 300,
-                      items: Cname.map((e) {
-                        return DropdownMenuItem(
-                          value: e,
-                          child: Text(
-                            e,
-                            style: TextStyle(fontFamily: 'poppins'),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedCat = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Text(AppTextFile.Description),
-          SizedBox(height: AppSize.paddingXS),
-          Commontextformfiled(
-            controller: TextEditingController(),
-            obscureText: false,
-            minLines: 5,
-            hint: AppTextFile.AddPlabel,
+          SizedBox(height: 16),
+          _priceRow(provider),
+          SizedBox(height: 16),
+          _stockField(provider),
+          SizedBox(height: 16),
+          _categoryDropdown(provider),
+          SizedBox(height: 20),
+          _sectionTitle("Description"),
+          SizedBox(height: 8),
+          _inputField(
+            label: "Product Description",
+            controller: provider.descriptioncontroller,
+            maxLines: 4,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Description required";
+              }
+              return null;
+            },
           ),
         ],
+      ),
+    );
+  }
+  Widget _inputField({
+    required String label,
+    required TextEditingController controller,
+    int maxLines = 1,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      maxLines: maxLines,
+      validator: validator,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(Icons.edit_outlined),
+        filled: true,
+        fillColor: Colors.grey.shade100,
+        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    );
+  }
+  Widget _priceRow(Datauplodeprovider provider) {
+    return Row(
+      children: [
+        Expanded(
+          child: _inputField(
+            label: "Price",
+            controller: provider.pricecontroller,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Required";
+              }
+              if (double.tryParse(value) == null) {
+                return "Invalid number";
+              }
+              return null;
+            },
+          ),
+        ),
+        SizedBox(width: 12),
+        Expanded(
+          child: _inputField(
+            label: "MRP",
+            controller: provider.mrpcontroller,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Required";
+              }
+              if (double.tryParse(value) == null) {
+                return "Invalid number";
+              }
+              return null;
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _stockField(Datauplodeprovider provider) {
+    return _inputField(
+      label: "Stock Quantity",
+      controller: provider.stockcontroller,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Stock required";
+        }
+        if (int.tryParse(value) == null) {
+          return "Invalid number";
+        }
+        return null;
+      },
+    );
+  }
+  Widget _categoryDropdown(Datauplodeprovider provider) {
+    return DropdownButtonFormField(
+      value: selectedCat,
+      decoration: InputDecoration(
+        labelText: "Category",
+        prefixIcon: Icon(Icons.category_outlined),
+        filled: true,
+        fillColor: Colors.grey.shade100,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
+      ),
+      items: Cname.map((e) {
+        return DropdownMenuItem(value: e, child: Text(e));
+      }).toList(),
+      onChanged: (value) {
+        setState(() {
+          selectedCat = value;
+          provider.categorycontroller.text = value.toString();
+        });
+      },
+    );
+  }
+
+  Widget _sectionTitle(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'poppins',
       ),
     );
   }

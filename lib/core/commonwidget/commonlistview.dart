@@ -5,11 +5,24 @@ import 'commonimagepicker.dart';
 
 class Commonlistview extends StatelessWidget {
   final List product;
-
   const Commonlistview({super.key, required this.product});
-
   @override
   Widget build(BuildContext context) {
+    if (product.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.inventory_2_outlined, size: 60, color: Colors.grey),
+            SizedBox(height: 10),
+            Text(
+              "No Products Found",
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ],
+        ),
+      );
+    }
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -73,7 +86,7 @@ class Commonlistview extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            "₹${pr.offprice}",
+                            "₹${pr.offprice}".toString(),
                             style: const TextStyle(
                               decoration: TextDecoration.lineThrough,
                               color: Colors.grey,
@@ -91,7 +104,7 @@ class Commonlistview extends StatelessWidget {
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
-                              "${pr.discount}% OFF",
+                              "${pr.discount}% OFF".toString(),
                               style: const TextStyle(
                                 color: Colors.green,
                                 fontSize: 12,
@@ -137,7 +150,7 @@ class Commonlistview extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
-        out ? "OUT OF STOCK" : "Stock: $stock",
+        out ? "OUT OF STOCK" : "Stock: $stock".toString(),
         style: TextStyle(
           color: color,
           fontSize: 12,

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'core/commonstyle/theme/theme.dart';
 import 'feature/bottomnavbar/bottomnavbar.dart';
+import 'feature/homepage/viewmodel/datauplodeprovider.dart';
 import 'feature/orders/viewmodel/orderdataprovider.dart';
 import 'feature/profile/view/widget/settingspage/widget/settings/themeprovider.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => Orderdataprovider()),
-        // ChangeNotifierProvider(create: (_) => Orderdataprovider()),
+        ChangeNotifierProvider(create: (_) => Datauplodeprovider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {

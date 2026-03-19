@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/commonfile/commonicon.dart';
 import '../../../core/commonfile/screensize.dart';
@@ -8,8 +9,8 @@ import '../../../core/commonwidget/commonappbar.dart';
 import '../../../core/commonwidget/commonlistview.dart';
 import '../../../core/commonwidget/commontabbar.dart';
 import '../../../core/commonwidget/commontextformfiled.dart';
-import '../../../repo/apicalling.dart';
 import '../../homepage/hometextfile.dart';
+import '../../homepage/viewmodel/datauplodeprovider.dart';
 
 class ProductMainScreen extends StatefulWidget {
   final bool isActivep;
@@ -19,7 +20,6 @@ class ProductMainScreen extends StatefulWidget {
 }
 
 class _ProductMainScreenState extends State<ProductMainScreen> {
-  final productone = Productrepo.getproduct();
   bool isLoading = false;
   @override
   void didUpdateWidget(ProductMainScreen oldWidget) {
@@ -47,6 +47,7 @@ class _ProductMainScreenState extends State<ProductMainScreen> {
   }
 
   Widget build(BuildContext context) {
+    final productone = context.watch<Datauplodeprovider>().getProductModels();
     return Scaffold(
       appBar: CommonAppBar(showBack: false, title: "Products"),
       body: isLoading
