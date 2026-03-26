@@ -8,7 +8,6 @@ import '../../../core/commonwidget/commonappbar.dart';
 import '../../../core/commonwidget/commonlistview.dart';
 import '../../../core/commonwidget/commontabbar.dart';
 import '../../../core/commonwidget/commontextformfiled.dart';
-import '../../../repo/apicalling.dart';
 import '../../homepage/hometextfile.dart';
 
 class ProductMainScreen extends StatefulWidget {
@@ -19,7 +18,6 @@ class ProductMainScreen extends StatefulWidget {
 }
 
 class _ProductMainScreenState extends State<ProductMainScreen> {
-  final productone = Productrepo.getproduct();
   bool isLoading = false;
   @override
   void didUpdateWidget(ProductMainScreen oldWidget) {
@@ -59,6 +57,7 @@ class _ProductMainScreenState extends State<ProductMainScreen> {
                     controller: TextEditingController(),
                     obscureText: false,
                     hint: "Search products....",
+                    maxLines: 1,
                     prefixIcon: Commonicon.searchicon,
                     suffixIcon: Commonicon.filtericon,
                   ),
@@ -71,13 +70,15 @@ class _ProductMainScreenState extends State<ProductMainScreen> {
                         AppTextFile.Home,
                         AppTextFile.Beauty,
                         AppTextFile.fashion,
+                        "Locked",
                       ],
                       views: [
-                        Commonlistview(product: productone),
-                        Commonlistview(product: productone),
-                        Commonlistview(product: productone),
-                        Commonlistview(product: productone),
-                        Commonlistview(product: productone),
+                        Commonlistview(category: "All"),
+                        Commonlistview(category: "Electronics"),
+                        Commonlistview(category: "Home"),
+                        Commonlistview(category: "Beauty"),
+                        Commonlistview(category: "Fashion"),
+                        Commonlistview(category: "Locked"),
                       ],
                     ),
                   ),

@@ -169,7 +169,7 @@ class _TabbarState extends State<Tabbar> {
                         margin: EdgeInsets.only(
                           top: Screensize.height(context) * 0.01,
                         ),
-                        height: Screensize.height(context) * 0.1,
+                        // height: Screensize.height(context) * 0.1,
                         width: double.infinity,
                         border: Border.all(
                           color: seletedindex == index
@@ -242,7 +242,7 @@ class _TabbarState extends State<Tabbar> {
                       );
                     },
                     child: CommonContainer(
-                      height: Screensize.height(context) * 0.054,
+                      //height: Screensize.height(context) * 0.054,
                       radius: 10,
                       color: Colors.white,
                       child: Row(

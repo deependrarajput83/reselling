@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/commonfile/commonicon.dart';
-import '../../../../core/commonfile/screensize.dart';
 import '../../../../core/commonstyle/colorstyle.dart';
 import '../../../../core/commonstyle/sizes.dart';
 import '../../../../core/commonwidget/commoncontainer.dart';
@@ -12,7 +11,7 @@ class StoreInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CommonContainer(
-      height: Screensize.height(context) * 0.18,
+      // height: Screensize.height(context) * 0.18,
       color: AppColor.ContainerColor,
       radius: 0,
       padding: EdgeInsets.all(AppSize.paddingSm),

@@ -1,21 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../feature/homepage/view/widget/stockoverview/producteditdata/productinfo.dart';
+import '../../feature/homepage/viewmodel/datauplodeprovider.dart';
 import 'commonimagepicker.dart';
 
 class Commonlistview extends StatelessWidget {
-  final List product;
-
-  const Commonlistview({super.key, required this.product});
-
+  final String category;
+  const Commonlistview({super.key, required this.category});
   @override
   Widget build(BuildContext context) {
+    final allProducts = context.watch<Datauplodeprovider>().getProductModels();
+    final productone = allProducts.where((e) {
+      if (category == "Locked") {
+        return e.isLock == true;
+      }
+      if (category == "All") {
+        return e.isLock == false;
+      }
+      return e.isLock == false &&
+          e.category.toLowerCase() == category.toLowerCase();
+    }).toList();
+    if (productone.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.inventory_2_outlined, size: 60, color: Colors.grey),
+            SizedBox(height: 10),
+            Text(
+              "No Products Found",
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ],
+        ),
+      );
+    }
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: product.length,
+      itemCount: productone.length,
       itemBuilder: (context, index) {
-        final pr = product[index];
+        final pr = productone[index];
         bool isOutStock = pr.itemcount == 0;
         bool isLowStock = pr.itemcount > 0 && pr.itemcount <= 10;
         return GestureDetector(
@@ -45,9 +71,13 @@ class Commonlistview extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: CommonimagePicker(imagepath: pr.image, height: 75),
+                  child: imagepicker(
+                    imagepath: pr.image.isNotEmpty ? pr.image.first : "",
+                    height: 75,
+                  ),
                 ),
                 const SizedBox(width: 12),
+
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,25 +110,6 @@ class Commonlistview extends StatelessWidget {
                               fontSize: 13,
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green.withOpacity(.1),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              "${pr.discount}% OFF",
-                              style: const TextStyle(
-                                color: Colors.green,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -121,7 +132,6 @@ class Commonlistview extends StatelessWidget {
 
   Widget _stockBadge(BuildContext context, int stock, bool out, bool low) {
     Color color;
-
     if (out) {
       color = Colors.red;
     } else if (low) {
@@ -129,7 +139,6 @@ class Commonlistview extends StatelessWidget {
     } else {
       color = Colors.green;
     }
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(

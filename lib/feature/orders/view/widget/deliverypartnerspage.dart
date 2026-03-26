@@ -21,7 +21,7 @@ class _DeliverypartnerspageState extends State<Deliverypartnerspage> {
               CommonContainer(
                 padding: EdgeInsets.all(10),
                 radius: 10,
-                height: Screensize.height(context) * 0.1,
+                //height: Screensize.height(context) * 0.1,
                 width: double.infinity,
                 color: AppColor.primary,
                 child: Column(
@@ -66,7 +66,7 @@ class _DeliverypartnerspageState extends State<Deliverypartnerspage> {
               ScreenContainer(
                 context: context,
                 imageLink: 'asset/imageassets/manprofile.png',
-                rating: '4',
+                rating: '1',
                 name: 'sumit',
                 areasCover: 'Jaipur',
                 ontime: '20%',
@@ -168,8 +168,8 @@ Widget ScreenContainer({
         Row(
           children: [
             CommonContainer(
-              height: Screensize.height(context) * 0.08,
-              width: Screensize.weight(context) * 0.4,
+              // height: Screensize.height(context) * 0.08,
+              // width: Screensize.weight(context) * 0.4,
               color: AppColor.primary.withOpacity(0.1),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -178,8 +178,8 @@ Widget ScreenContainer({
             ),
             SizedBox(width: 10),
             CommonContainer(
-              height: Screensize.height(context) * 0.08,
-              width: Screensize.weight(context) * 0.4,
+              // height: Screensize.height(context) * 0.08,
+              // width: Screensize.weight(context) * 0.4,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Text("Total Deliveries"), Text(totalDeliveries)],

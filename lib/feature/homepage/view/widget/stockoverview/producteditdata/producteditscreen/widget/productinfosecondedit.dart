@@ -9,7 +9,9 @@ import '../../../../../../../../core/commonwidget/commontextformfiled.dart';
 import '../../../../../../hometextfile.dart';
 
 class ProductInfoPagesecond extends StatelessWidget {
-  ProductInfoPagesecond({super.key});
+  final TextEditingController weight;
+  final TextEditingController tags;
+  ProductInfoPagesecond({super.key, required this.weight, required this.tags});
   @override
   Widget build(BuildContext context) {
     return CommonContainer(
@@ -22,14 +24,14 @@ class ProductInfoPagesecond extends StatelessWidget {
         children: [
           Text(AppTextFile.Weight),
           Commontextformfiled(
-            controller: TextEditingController(),
+            controller: weight,
             obscureText: false,
             hint: "100g",
           ),
           SizedBox(height: AppSize.spacingSm),
           Text(AppTextFile.Tags),
           Commontextformfiled(
-            controller: TextEditingController(),
+            controller: tags,
             obscureText: false,
             hint: "Trending,bestseller,new",
           ),

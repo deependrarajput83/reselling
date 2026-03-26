@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reselling_new/feature/orders/view/orderpagemainscreen.dart';
 
 import '../../../../../core/commonfile/screensize.dart';
 import '../../../../../core/commonstyle/colorstyle.dart';
@@ -23,7 +24,7 @@ class QuickActionMainPage extends StatelessWidget {
     ];
     return CommonContainer(
       color: Colors.white,
-      height: Screensize.height(context) * 0.16,
+      //height: Screensize.height(context) * 0.16,
       width: Screensize.weight(context) * double.infinity,
       padding: EdgeInsets.only(
         left: AppSize.paddingMd,
@@ -64,6 +65,17 @@ class QuickActionMainPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => AddProduct()),
+                        );
+                      });
+                    }
+                    if (index == 1) {
+                      await Future.delayed(Duration(milliseconds: 200), () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                OrderPageMainScreen(isactiveorder: true),
+                          ),
                         );
                       });
                     }

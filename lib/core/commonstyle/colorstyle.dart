@@ -19,7 +19,7 @@ class AppColor {
 
   ///textcolor
   static const darkmodetext = Color(0xffE5E7EB);
-  static const lightmodetext = Color(0xff111827); // dark text for light mode
+  static const lightmodetext = Color(0xff111827);
 
   ///Container Fix color
   static const ContainerColor = Colors.white;

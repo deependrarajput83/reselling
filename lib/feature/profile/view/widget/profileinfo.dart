@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/commonfile/screensize.dart';
 import '../../../../core/commonstyle/colorstyle.dart';
 import '../../../../core/commonstyle/sizes.dart';
 import '../../../../core/commonwidget/commoncontainer.dart';
@@ -12,7 +11,7 @@ class ProfileInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonContainer(
       padding: EdgeInsets.all(AppSize.paddingSm),
-      height: Screensize.height(context) * 0.13,
+      //height: Screensize.height(context) * 0.13,
       width: double.infinity,
       color: AppColor.ContainerColor,
       radius: 0,

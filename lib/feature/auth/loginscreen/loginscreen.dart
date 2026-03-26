@@ -3,6 +3,7 @@ import 'package:reselling_new/feature/auth/loginscreen/widget/applogo.dart';
 import 'package:reselling_new/feature/auth/loginscreen/widget/loginbutton.dart';
 import 'package:reselling_new/feature/auth/loginscreen/widget/logintextfild.dart';
 
+import '../../../core/commonstyle/colorstyle.dart';
 import '../../../core/commonstyle/sizes.dart';
 import '../../../core/commonwidget/commontextbutton.dart';
 import '../authtextfile.dart';
@@ -14,39 +15,64 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: AppColor.lightmode,
       body: SafeArea(
-        top: true,
-        bottom: true,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(AppSize.paddingMd),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(height: 20),
                 const AppLogo(),
-                SizedBox(height: AppSize.spacingXl),
-                Text("Welcome Back"),
-                SizedBox(height: AppSize.spacingSm),
-                Text("Login to manage your business"),
-                const LoginTextFiled(),
-                SizedBox(height: AppSize.spacingXl),
+                const SizedBox(height: 30),
+                Text(
+                  "Welcome Back",
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  "Login to manage your business",
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColor.ContainerColor,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: const LoginTextFiled(),
+                ),
+                const SizedBox(height: 25),
                 const LoginButton(),
-                SizedBox(height: AppSize.spacingLg),
+                const SizedBox(height: 25),
                 Row(
                   children: [
                     const Expanded(child: Divider()),
-                    const SizedBox(width: AppSize.spacingLg),
-                    Text("Or continue with"),
-                    const SizedBox(width: AppSize.spacingLg),
+                    const SizedBox(width: 10),
+                    Text("Or continue with", style: theme.textTheme.bodySmall),
+                    const SizedBox(width: 10),
                     const Expanded(child: Divider()),
                   ],
                 ),
-                SizedBox(height: AppSize.spacingLg),
+                const SizedBox(height: 20),
                 const SignUpButton(),
-                SizedBox(height: AppSize.spacingLg),
+                const SizedBox(height: 25),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(Authtextfile.Alreadyaccount),
@@ -54,12 +80,10 @@ class LoginScreen extends StatelessWidget {
                       ontap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => SignupMainScreen(),
-                          ),
+                          MaterialPageRoute(builder: (_) => SignupMainScreen()),
                         );
                       },
-                      child: Text("Sign up"),
+                      child: const Text(" Sign up"),
                     ),
                   ],
                 ),

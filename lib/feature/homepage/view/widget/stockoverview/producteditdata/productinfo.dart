@@ -36,13 +36,13 @@ class _ProductInfoState extends State<ProductInfo> {
         child: Column(
           children: [
             CarouselSlider.builder(
-              itemCount: 3,
+              itemCount: widget.productInformation.image.length,
               itemBuilder: (BuildContext context, int index, _) => Container(
                 width: double.infinity,
                 color: Colors.red,
-                child: CommonimagePicker(
-                  imagepath: widget.productInformation.image,
-                  radius: BorderRadius.circular(0),
+                child: imagepicker(
+                  imagepath: widget.productInformation.image[index],
+                  height: Screensize.height(context),
                 ),
               ),
               options: CarouselOptions(
@@ -67,7 +67,10 @@ class _ProductInfoState extends State<ProductInfo> {
               ),
             ),
             SizedBox(height: AppSize.spacingSm),
-            DotsIndicator(dotsCount: 3, position: currentindex.toDouble()),
+            DotsIndicator(
+              dotsCount: widget.productInformation.image.length,
+              position: currentindex.toDouble(),
+            ),
             ListView.builder(
               shrinkWrap: true,
               physics: ScrollPhysics(),
@@ -94,13 +97,13 @@ class _ProductInfoState extends State<ProductInfo> {
                             Row(
                               children: [
                                 Text(
-                                  fulldata.money.toString(),
+                                  "${fulldata.money.toString()} Rs",
                                   style: Theme.of(context).textTheme.bodyMedium
                                       ?.copyWith(color: AppColor.primary),
                                 ),
                                 SizedBox(width: AppSize.spacingSm),
                                 Text(
-                                  fulldata.offprice.toString(),
+                                  "${fulldata.offprice.toString()} Rs",
                                   style: Theme.of(context).textTheme.bodyMedium
                                       ?.copyWith(
                                         color: Colors.grey,
@@ -108,21 +111,24 @@ class _ProductInfoState extends State<ProductInfo> {
                                       ),
                                 ),
                                 SizedBox(width: AppSize.spacingSm),
-                                CommonContainer(
-                                  height: Screensize.height(context) * 0.025,
-                                  width: Screensize.weight(context) * 0.16,
-                                  radius: 3,
-                                  color: Colors.green.shade100,
-                                  child: Center(
-                                    child: Text(
-                                      "59% OFF",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall
-                                          ?.copyWith(color: AppColor.secondary),
+                                if (fulldata.discount > 0)
+                                  CommonContainer(
+                                    height: Screensize.height(context) * 0.025,
+                                    width: Screensize.weight(context) * 0.16,
+                                    radius: 3,
+                                    color: Colors.green.shade100,
+                                    child: Center(
+                                      child: Text(
+                                        fulldata.discount.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelSmall
+                                            ?.copyWith(
+                                              color: AppColor.secondary,
+                                            ),
+                                      ),
                                     ),
                                   ),
-                                ),
                               ],
                             ),
                             SizedBox(height: AppSize.spacingXs),
@@ -193,7 +199,7 @@ class _ProductInfoState extends State<ProductInfo> {
                               AppTextFile.Description,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
-                            Text("${fulldata.description}"),
+                            Text(fulldata.description),
                           ],
                         ),
                       )
@@ -218,14 +224,14 @@ class _ProductInfoState extends State<ProductInfo> {
                               children: [
                                 Text("${AppTextFile.Weight} :"),
                                 SizedBox(width: 10),
-                                Text("343g"),
+                                Text("${fulldata.weight}gm"),
                               ],
                             ),
                             Row(
                               children: [
                                 Text("${AppTextFile.Category} :"),
                                 SizedBox(width: 10),
-                                Text(AppTextFile.electronices),
+                                Text(fulldata.category),
                               ],
                             ),
                           ],
@@ -243,23 +249,76 @@ class _ProductInfoState extends State<ProductInfo> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              AppTextFile.ProductDetails,
+                              "Tags",
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
-                            Row(
-                              children: List.generate(
-                                3,
-                                (index) => CommonContainer(
-                                  height: Screensize.height(context) * 0.04,
-                                  width: Screensize.weight(context) * 0.2,
-                                  color: Colors.blue.shade100,
-                                  margin: EdgeInsets.only(
-                                    right: AppSize.spacingSm,
-                                  ),
-                                  child: Center(child: Text("Fitness")),
-                                ),
-                              ),
+                            // Row(
+                            //   children: List.generate(
+                            //     3,
+                            //     (index) => CommonContainer(
+                            //       height: Screensize.height(context) * 0.04,
+                            //       width: Screensize.weight(context) * 0.2,
+                            //       color: Colors.blue.shade100,
+                            //       margin: EdgeInsets.only(
+                            //         right: AppSize.spacingSm,
+                            //       ),
+                            //       child: Center(child: Text(fulldata.tags)),
+                            //     ),
+                            //   ),
+                            // ),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: fulldata.tags
+                                  .map(
+                                    (tag) => CommonContainer(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 6,
+                                      ),
+                                      color: Colors.grey.shade200,
+                                      radius: 20,
+                                      child: Text(tag.trim()),
+                                    ),
+                                  )
+                                  .toList(),
                             ),
+                            // Wrap(
+                            //   spacing: 8,
+                            //   runSpacing: 8,
+                            //   children: [
+                            //     CommonContainer(
+                            //       padding: EdgeInsets.symmetric(
+                            //         horizontal: 12,
+                            //         vertical: 6,
+                            //       ),
+                            //       color: Colors.blue.shade50,
+                            //       radius: 20,
+                            //       border: Border.all(color: Colors.blue),
+                            //       child: Text(fulldata.tags[index]),
+                            //     ),
+                            //     CommonContainer(
+                            //       padding: EdgeInsets.symmetric(
+                            //         horizontal: 12,
+                            //         vertical: 6,
+                            //       ),
+                            //       color: Colors.green.shade50,
+                            //       radius: 20,
+                            //       border: Border.all(color: Colors.green),
+                            //       child: Text(fulldata.tags[index]),
+                            //     ),
+                            //     CommonContainer(
+                            //       padding: EdgeInsets.symmetric(
+                            //         horizontal: 12,
+                            //         vertical: 6,
+                            //       ),
+                            //       color: Colors.orange.shade50,
+                            //       radius: 20,
+                            //       border: Border.all(color: Colors.orange),
+                            //       child: Text(fulldata.tags[index]),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       );
@@ -288,7 +347,9 @@ class _ProductInfoState extends State<ProductInfo> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Producteditscreen(),
+                        builder: (context) => Producteditscreen(
+                          product: widget.productInformation,
+                        ),
                       ),
                     );
                   },
