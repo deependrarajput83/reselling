@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../../core/commonfile/commonicon.dart';
-import '../../../../../../../core/commonfile/screensize.dart';
 import '../../../../../../../core/commonstyle/colorstyle.dart';
 import '../../../../../../../core/commonstyle/sizes.dart';
 import '../../../../../../../core/commonwidget/commoncontainer.dart';
@@ -21,7 +20,7 @@ class ProductImageUpload extends StatelessWidget {
       builder: (context, provider, child) {
         return CommonContainer(
           padding: EdgeInsets.all(AppSize.paddingMd),
-          height: Screensize.height(context) * 0.2,
+          // height: Screensize.height(context) * 0.2,
           width: double.infinity,
           color: AppColor.ContainerColor,
           border: Border.all(color: Colors.grey.shade300),
@@ -41,9 +40,11 @@ class ProductImageUpload extends StatelessWidget {
                     if (provider.selectedImages.length < 5 && index == 0) {
                       return uploadButton(context, picker, provider);
                     }
+
                     final imageIndex = provider.selectedImages.length < 5
                         ? index - 1
                         : index;
+
                     final image = provider.selectedImages[imageIndex];
                     return Stack(
                       children: [
@@ -82,6 +83,14 @@ class ProductImageUpload extends StatelessWidget {
                   },
                 ),
               ),
+              if (provider.imageerror != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Text(
+                    provider.imageerror!,
+                    style: TextStyle(color: Colors.red, fontSize: 12),
+                  ),
+                ),
             ],
           ),
         );

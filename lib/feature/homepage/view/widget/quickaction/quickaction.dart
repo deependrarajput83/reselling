@@ -24,7 +24,7 @@ class QuickActionMainPage extends StatelessWidget {
     ];
     return CommonContainer(
       color: Colors.white,
-      height: Screensize.height(context) * 0.16,
+      //height: Screensize.height(context) * 0.16,
       width: Screensize.weight(context) * double.infinity,
       padding: EdgeInsets.only(
         left: AppSize.paddingMd,

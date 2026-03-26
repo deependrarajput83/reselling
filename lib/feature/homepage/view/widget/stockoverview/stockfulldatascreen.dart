@@ -53,7 +53,7 @@ class Stockfulldatascreen extends StatelessWidget {
                         border: Border.all(color: Colors.grey.shade300),
                         child: Row(
                           children: [
-                            CommonimagePicker(imagepath: p.image),
+                            CommonimagePicker(imagepath: p.image[0]),
                             SizedBox(width: 13),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +126,7 @@ class Stockfulldatascreen extends StatelessWidget {
                         border: Border.all(color: Colors.grey.shade300),
                         child: Row(
                           children: [
-                            CommonimagePicker(imagepath: p.image),
+                            CommonimagePicker(imagepath: p.image[0]),
                             SizedBox(width: 13),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,6 +189,7 @@ class Stockfulldatascreen extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: product.length,
                     itemBuilder: (context, index) {
+                      final s = product[index];
                       return CommonContainer(
                         padding: EdgeInsets.all(AppSize.paddingSm),
                         margin: EdgeInsets.only(top: 5),
@@ -198,7 +199,7 @@ class Stockfulldatascreen extends StatelessWidget {
                         border: Border.all(color: Colors.grey.shade300),
                         child: Row(
                           children: [
-                            CommonimagePicker(imagepath: product[index].image),
+                            CommonimagePicker(imagepath: s.image[0]),
                             SizedBox(width: 13),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

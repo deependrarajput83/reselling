@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reselling_new/feature/homepage/view/widget/stockoverview/stockfulldatascreen.dart';
 
 import '../../../../../core/commonfile/screensize.dart';
@@ -8,6 +9,7 @@ import '../../../../../core/commonwidget/commoncontainer.dart';
 import '../../../../../core/commonwidget/commontextbutton.dart';
 import '../../../homelistfile.dart';
 import '../../../hometextfile.dart';
+import '../../../viewmodel/datauplodeprovider.dart';
 
 class StockOverview extends StatelessWidget {
   const StockOverview({super.key});
@@ -29,6 +31,7 @@ class StockOverview extends StatelessWidget {
       color: Colors.white,
       radius: 0,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
@@ -70,6 +73,14 @@ class StockOverview extends StatelessWidget {
               mainAxisSpacing: 8,
             ),
             itemBuilder: (context, index) {
+              final provider = context.watch<Datauplodeprovider>();
+              final products = provider.getProductModels();
+              int outOfStock = products.where((e) => e.itemcount == 0).length;
+              int lowStock = products
+                  .where((e) => e.itemcount > 0 && e.itemcount <= 10)
+                  .length;
+              int inStock = products.where((e) => e.itemcount > 5).length;
+              int locked = products.where((e) => e.isLock == true).length;
               return CommonContainer(
                 padding: EdgeInsets.all(AppSize.paddingMd),
                 color: lightBgColors[index % lightBgColors.length],
@@ -117,9 +128,24 @@ class StockOverview extends StatelessWidget {
                           Homelistfile.StockSection[index]["title"],
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
-                        Text(
-                          "20",
-                          style: Theme.of(context).textTheme.bodyMedium,
+                        Builder(
+                          builder: (context) {
+                            String value = "";
+                            if (index == 0) {
+                              value = inStock.toString();
+                            } else if (index == 1) {
+                              value = lowStock.toString();
+                            } else if (index == 2) {
+                              value = outOfStock.toString();
+                            } else {
+                              value = locked.toString();
+                            }
+
+                            return Text(
+                              value,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            );
+                          },
                         ),
                       ],
                     ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/commonfile/commonicon.dart';
 import '../../../core/commonfile/screensize.dart';
@@ -10,7 +9,6 @@ import '../../../core/commonwidget/commonlistview.dart';
 import '../../../core/commonwidget/commontabbar.dart';
 import '../../../core/commonwidget/commontextformfiled.dart';
 import '../../homepage/hometextfile.dart';
-import '../../homepage/viewmodel/datauplodeprovider.dart';
 
 class ProductMainScreen extends StatefulWidget {
   final bool isActivep;
@@ -47,7 +45,6 @@ class _ProductMainScreenState extends State<ProductMainScreen> {
   }
 
   Widget build(BuildContext context) {
-    final productone = context.watch<Datauplodeprovider>().getProductModels();
     return Scaffold(
       appBar: CommonAppBar(showBack: false, title: "Products"),
       body: isLoading
@@ -60,6 +57,7 @@ class _ProductMainScreenState extends State<ProductMainScreen> {
                     controller: TextEditingController(),
                     obscureText: false,
                     hint: "Search products....",
+                    maxLines: 1,
                     prefixIcon: Commonicon.searchicon,
                     suffixIcon: Commonicon.filtericon,
                   ),
@@ -72,13 +70,15 @@ class _ProductMainScreenState extends State<ProductMainScreen> {
                         AppTextFile.Home,
                         AppTextFile.Beauty,
                         AppTextFile.fashion,
+                        "Locked",
                       ],
                       views: [
-                        Commonlistview(product: productone),
-                        Commonlistview(product: productone),
-                        Commonlistview(product: productone),
-                        Commonlistview(product: productone),
-                        Commonlistview(product: productone),
+                        Commonlistview(category: "All"),
+                        Commonlistview(category: "Electronics"),
+                        Commonlistview(category: "Home"),
+                        Commonlistview(category: "Beauty"),
+                        Commonlistview(category: "Fashion"),
+                        Commonlistview(category: "Locked"),
                       ],
                     ),
                   ),

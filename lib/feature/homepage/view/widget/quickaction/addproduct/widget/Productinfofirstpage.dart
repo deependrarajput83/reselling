@@ -8,14 +8,19 @@ import '../../../../../viewmodel/datauplodeprovider.dart';
 
 class ProductInfoFirstPage extends StatefulWidget {
   const ProductInfoFirstPage({super.key});
-
   @override
   State<ProductInfoFirstPage> createState() => _ProductInfoFirstPageState();
 }
 
 class _ProductInfoFirstPageState extends State<ProductInfoFirstPage> {
-  final List<String> Cname = ["Electric", "Charger", "Cloth", "Fashion"];
-  String? selectedCat = "Electric";
+  final List<String> Cname = ["Electronics", "Home", "Beauty", "Fashion"];
+  String? selectedCat = "Electronics";
+  @override
+  void initState() {
+    super.initState();
+    final provider = context.read<Datauplodeprovider>();
+    provider.categorycontroller.text = selectedCat!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +73,7 @@ class _ProductInfoFirstPageState extends State<ProductInfoFirstPage> {
       ),
     );
   }
+
   Widget _inputField({
     required String label,
     required TextEditingController controller,
@@ -91,6 +97,7 @@ class _ProductInfoFirstPageState extends State<ProductInfoFirstPage> {
       ),
     );
   }
+
   Widget _priceRow(Datauplodeprovider provider) {
     return Row(
       children: [
@@ -144,6 +151,7 @@ class _ProductInfoFirstPageState extends State<ProductInfoFirstPage> {
       },
     );
   }
+
   Widget _categoryDropdown(Datauplodeprovider provider) {
     return DropdownButtonFormField(
       value: selectedCat,

@@ -10,8 +10,21 @@ import '../../../../../../../../core/commonwidget/commontextformfiled.dart';
 import '../../../../../../hometextfile.dart';
 
 class ProductInfoFirstpageedit extends StatefulWidget {
-  ProductInfoFirstpageedit({super.key});
-
+  final TextEditingController namecontroller;
+  final TextEditingController pricecontroller;
+  final TextEditingController stockcontroller;
+  final TextEditingController mrpcontroller;
+  final TextEditingController categorycontroller;
+  final TextEditingController descriptioncontroller;
+  ProductInfoFirstpageedit({
+    super.key,
+    required this.namecontroller,
+    required this.pricecontroller,
+    required this.stockcontroller,
+    required this.mrpcontroller,
+    required this.categorycontroller,
+    required this.descriptioncontroller,
+  });
   @override
   State<ProductInfoFirstpageedit> createState() =>
       _ProductInfoFirstpageeditState();
@@ -19,9 +32,7 @@ class ProductInfoFirstpageedit extends StatefulWidget {
 
 class _ProductInfoFirstpageeditState extends State<ProductInfoFirstpageedit> {
   List<String> Cname = ["Electric", "Charger", "Cloth", "Fashion"];
-
   String? selectedCat = "Electric";
-
   @override
   Widget build(BuildContext context) {
     return CommonContainer(
@@ -37,7 +48,7 @@ class _ProductInfoFirstpageeditState extends State<ProductInfoFirstpageedit> {
           Text(AppTextFile.Productname),
           SizedBox(height: AppSize.paddingSm),
           Commontextformfiled(
-            controller: TextEditingController(),
+            controller: widget.namecontroller,
             obscureText: false,
             hint: AppTextFile.EnterProductName,
           ),
@@ -59,7 +70,7 @@ class _ProductInfoFirstpageeditState extends State<ProductInfoFirstpageedit> {
                     Text(AppTextFile.Price),
                     SizedBox(height: AppSize.paddingXS),
                     Commontextformfiled(
-                      controller: TextEditingController(),
+                      controller: widget.pricecontroller,
                       obscureText: false,
                       hint: AppTextFile.Price,
                     ),
@@ -71,7 +82,7 @@ class _ProductInfoFirstpageeditState extends State<ProductInfoFirstpageedit> {
                     Text(AppTextFile.MRP),
                     SizedBox(height: AppSize.paddingXS),
                     Commontextformfiled(
-                      controller: TextEditingController(),
+                      controller: widget.mrpcontroller,
                       obscureText: false,
                       hint: AppTextFile.MRP,
                     ),
@@ -83,7 +94,7 @@ class _ProductInfoFirstpageeditState extends State<ProductInfoFirstpageedit> {
                     Text(AppTextFile.StockQuantity),
                     SizedBox(height: AppSize.paddingXS),
                     Commontextformfiled(
-                      controller: TextEditingController(),
+                      controller: widget.stockcontroller,
                       obscureText: false,
                       maxLines: 1,
                       hint: AppTextFile.StockQuantity,
@@ -109,6 +120,7 @@ class _ProductInfoFirstpageeditState extends State<ProductInfoFirstpageedit> {
                       onChanged: (value) {
                         setState(() {
                           selectedCat = value;
+                          widget.categorycontroller.text = value.toString();
                         });
                       },
                     ),
@@ -120,7 +132,7 @@ class _ProductInfoFirstpageeditState extends State<ProductInfoFirstpageedit> {
           Text(AppTextFile.Description),
           SizedBox(height: AppSize.paddingXS),
           Commontextformfiled(
-            controller: TextEditingController(),
+            controller: widget.descriptioncontroller,
             obscureText: false,
             minLines: 5,
             hint: AppTextFile.AddPlabel,

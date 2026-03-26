@@ -39,7 +39,7 @@ class _HelpNdSupportState extends State<HelpNdSupport> {
       body: Column(
         children: [
           CommonContainer(
-            height: Screensize.height(context) * 0.25,
+            //height: Screensize.height(context) * 0.25,
             color: Colors.white,
             width: double.infinity,
             padding: EdgeInsets.all(AppSize.paddingSm),

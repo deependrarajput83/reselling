@@ -33,20 +33,13 @@ class AddProduct extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: CommonButton(
                   OnPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      context.read<Datauplodeprovider>().addproductdata();
+                    final provider = context.read<Datauplodeprovider>();
+                    bool isFormValid = _formKey.currentState!.validate();
+                    provider.vaildimage();
+                    if (isFormValid && provider.imageerror == null) {
+                      provider.addproductdata(context);
                       Navigator.pop(context);
                     }
-                    print(
-                      "Name: ${context.read<Datauplodeprovider>().namecontroller.text}",
-                    );
-                    print(
-                      "Price: ${context.read<Datauplodeprovider>().pricecontroller.text}",
-                    );
-
-                    print(
-                      "Data add ${context.read<Datauplodeprovider>().tempdata}",
-                    );
                   },
                   child: Text("Add Product"),
                 ),
